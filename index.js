@@ -7,7 +7,7 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 app.use(express.json());
-const origin = ["", "http://localhost:3000"];
+const origin = ["https://check-in-swart.vercel.app", "http://localhost:3000"];
 
 app.use(
   cors({
