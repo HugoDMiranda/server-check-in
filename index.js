@@ -5,7 +5,6 @@ const PassengersModel = require("./models/Passengers");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-dotenv.config();
 app.use(express.json());
 const origin = ["https://check-in-swart.vercel.app", "http://localhost:3000"];
 
@@ -16,12 +15,24 @@ app.use(
     credentials: true,
   })
 );
-
+dotenv.config();
 app.set("port", process.env.PORT || 3001);
 
-mongoose.connect(
-  "mongodb://mongo:kWa0UAbKPyz6T7Fq3C0p@containers-us-west-204.railway.app:7329"
-);
+mongoose.set("strictQuery", false);
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+
+// mongoose.connect(
+//   "mongodb+srv://hdmirandab:13032605@checkin.ptroj34.mongodb.net/?retryWrites=true&w=majority"
+// );
 
 app.get("/passengers", async (req, res) => {
   try {
@@ -32,14 +43,14 @@ app.get("/passengers", async (req, res) => {
   }
 });
 
-app.get("/passenger", async (req, res) => {
-  try {
-    const result = await PassengersModel.find({ name: req.body.name });
-    res.json(req.body.name);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
+// app.get("/passenger", async (req, res) => {
+//   try {
+//     const result = await PassengersModel.find({ name: req.body.name });
+//     res.json(req.body.name);
+//   } catch (e) {
+//     res.status(500).json({ error: e.message });
+//   }
+// });
 
 app.post("/checkin", async (req, res) => {
   const passenger = req.body;
@@ -50,6 +61,8 @@ app.post("/checkin", async (req, res) => {
 });
 
 // starting the server
-app.listen(app.get("port"), () => {
-  console.log(`App listening on port ${app.get("port")}`);
+connectDB().then(() => {
+  app.listen(app.get("port"), () => {
+    console.log(`App listening on port ${app.get("port")}`);
+  });
 });
