@@ -34,6 +34,10 @@ const connectDB = async () => {
 //   "mongodb+srv://hdmirandab:13032605@checkin.ptroj34.mongodb.net/?retryWrites=true&w=majority"
 // );
 
+app.get("/", async (req, res) => {
+  res.send("connect to MONGODB");
+});
+
 app.get("/passengers", async (req, res) => {
   try {
     const result = await PassengersModel.find({});
