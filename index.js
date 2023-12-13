@@ -43,14 +43,14 @@ app.use("/api/passengers", passengersRoutes);
 // app.use("/api/team", teamRoutes);
 
 // old router
-// app.get("/passengers", async (req, res) => {
-//   try {
-//     const result = await PassengersModel.find({});
-//     res.json(result);
-//   } catch (e) {
-//     res.status(500).json({ error: e.message });
-//   }
-// });
+app.get("/passengers", async (req, res) => {
+  try {
+    const result = await PassengersModel.find({});
+    res.json(result);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 
 // app.post("/checkin", async (req, res) => {
 //   const passenger = req.body;
