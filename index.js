@@ -1,3 +1,4 @@
+const passengersRoutes = require("./routes/passengers.js");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -37,16 +38,34 @@ const connectDB = async () => {
 app.get("/", async (req, res) => {
   res.send("connect to MONGODB");
 });
+//new routers
+app.use("/api/passengers", passengersRoutes);
+// app.use("/api/team", teamRoutes);
 
-app.get("/passengers", async (req, res) => {
-  try {
-    const result = await PassengersModel.find({});
-    res.json(result);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
+// old router
+// app.get("/passengers", async (req, res) => {
+//   try {
+//     const result = await PassengersModel.find({});
+//     res.json(result);
+//   } catch (e) {
+//     res.status(500).json({ error: e.message });
+//   }
+// });
+
+// app.post("/checkin", async (req, res) => {
+//   const passenger = req.body;
+//   const newPassanger = new PassengersModel(passenger);
+//   await newPassanger.save();
+
+//   res.json(passenger);
+// });
+
+// starting the server
+connectDB().then(() => {
+  app.listen(app.get("port"), () => {
+    console.log(`App listening on port ${app.get("port")}`);
+  });
 });
-
 // app.get("/passenger", async (req, res) => {
 //   try {
 //     const result = await PassengersModel.find({ name: req.body.name });
@@ -55,18 +74,3 @@ app.get("/passengers", async (req, res) => {
 //     res.status(500).json({ error: e.message });
 //   }
 // });
-
-app.post("/checkin", async (req, res) => {
-  const passenger = req.body;
-  const newPassanger = new PassengersModel(passenger);
-  await newPassanger.save();
-
-  res.json(passenger);
-});
-
-// starting the server
-connectDB().then(() => {
-  app.listen(app.get("port"), () => {
-    console.log(`App listening on port ${app.get("port")}`);
-  });
-});
