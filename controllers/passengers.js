@@ -1,4 +1,4 @@
-const PassengersModel = require("../models/Passengers");
+const PassengersModel = require("../models/Passengers.js");
 
 //Get all passengers
 const getPassengers = async (req, res) => {

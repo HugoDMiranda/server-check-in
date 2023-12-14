@@ -1,8 +1,8 @@
 const passengersRoutes = require("./routes/passengers.js");
+const teamRoutes = require("./routes/team.js");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const PassengersModel = require("./models/Passengers");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
@@ -40,25 +40,7 @@ app.get("/", async (req, res) => {
 });
 //new routers
 app.use("/api/passengers", passengersRoutes);
-// app.use("/api/team", teamRoutes);
-
-// old router
-app.get("/passengers", async (req, res) => {
-  try {
-    const result = await PassengersModel.find({});
-    res.json(result);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-// app.post("/checkin", async (req, res) => {
-//   const passenger = req.body;
-//   const newPassanger = new PassengersModel(passenger);
-//   await newPassanger.save();
-
-//   res.json(passenger);
-// });
+app.use("/api/team", teamRoutes);
 
 // starting the server
 connectDB().then(() => {
@@ -66,11 +48,3 @@ connectDB().then(() => {
     console.log(`App listening on port ${app.get("port")}`);
   });
 });
-// app.get("/passenger", async (req, res) => {
-//   try {
-//     const result = await PassengersModel.find({ name: req.body.name });
-//     res.json(req.body.name);
-//   } catch (e) {
-//     res.status(500).json({ error: e.message });
-//   }
-// });
