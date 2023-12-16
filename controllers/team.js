@@ -19,7 +19,16 @@ const addTeam = async (req, res) => {
   res.json(team);
 };
 
+//
+const seeTeam = async (req, res) => {
+  const { name } = req.body;
+  const team = await TeamModel.findOne({ name });
+
+  res.json(team);
+};
+
 module.exports = {
   getTeam,
   addTeam,
+  seeTeam,
 };
