@@ -1,4 +1,5 @@
 const passengersRoutes = require("./routes/passengers.js");
+const flightsRoutes = require("./routes/flights.js");
 const teamRoutes = require("./routes/team.js");
 const express = require("express");
 const app = express();
@@ -39,8 +40,9 @@ app.get("/", async (req, res) => {
   res.send("connect to MONGODB");
 });
 //new routers
-app.use("/api/passengers", passengersRoutes);
+app.use("/api/flights", flightsRoutes);
 app.use("/api/team", teamRoutes);
+app.use("/api/passengers", passengersRoutes);
 
 // starting the server
 connectDB().then(() => {
