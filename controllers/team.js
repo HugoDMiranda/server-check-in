@@ -27,8 +27,4 @@ const seeTeam = async (req, res) => {
   res.json(team);
 };
 
-module.exports = {
-  getTeam,
-  addTeam,
-  seeTeam,
-};
+module.exports = { getTeam, addTeam, seeTeam };

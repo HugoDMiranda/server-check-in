@@ -15,11 +15,7 @@ const getFlights = async (req, res) => {
 const seeF = async (req, res) => {
   const { name } = req.body;
   const F = await FlightsModel.findOne({ name });
-
   res.json(F);
 };
-
-module.exports = {
-  getFlights,
-  seeF,
-};
+//
+module.exports = { getFlights, seeF };
