@@ -1,9 +1,9 @@
 const express = require("express");
-const { getFlights, seeF } = require("../controllers/flights.js");
+const { getFlights, seeFlight } = require("../controllers/flights.js");
 
 const router = express.Router();
 
 router.get("/", getFlights);
-router.post("/seeF", seeF);
+router.get("/seeFlight", seeFlight);
 
 module.exports = router;
