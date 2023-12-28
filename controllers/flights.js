@@ -21,7 +21,7 @@ const getFlights = async (req, res) => {
 
 const seeFlight = async (req, res) => {
   try {
-    const resultado = await FlightsModel.aggrega([
+    const resultado = await FlightsModel.aggregate([
       {
         $lookup: {
           from: "passengers",
