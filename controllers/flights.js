@@ -32,7 +32,7 @@ const seeFlight = async (req, res) => {
             {
               $match: {
                 $expr: {
-                  $in: ["$$flightName", "$number"],
+                  $in: ["$number", "$$flightName"],
                 },
               },
             },
