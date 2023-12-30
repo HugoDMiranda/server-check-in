@@ -19,7 +19,35 @@ const getFlights = async (req, res) => {
 // };
 //
 
-const seeFlight = async (req, res) => {
+const seeFlightTeam = async (req, res) => {
+  try {
+    const team = await FlightsModel.aggregate([
+      {
+        $lookup: {
+          from: "team",
+          let: {
+            flightTeam: "$name",
+          },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $in: ["$$flightTeam", ["$name"]],
+                },
+              },
+            },
+          ],
+          as: "teamFound",
+        },
+      },
+    ]);
+    res.json(team);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
+const seeFlightPassangers = async (req, res) => {
   try {
     const passengers = await FlightsModel.aggregate([
       {
@@ -41,27 +69,7 @@ const seeFlight = async (req, res) => {
         },
       },
     ]);
-    const team = await FlightsModel.aggregate([
-      {
-        $lookup: {
-          from: "team",
-          let: {
-            flightTeam: "$name",
-          },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $in: ["$$flightTeam", ["$name"]],
-                },
-              },
-            },
-          ],
-          as: "teamFound",
-        },
-      },
-    ]);
-    res.json(passengers + team);
+    res.json(passengers);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
@@ -92,9 +100,10 @@ const flight = async (req, res) => {
       },
     ]);
     res.json(resultado);
+    res.json(flight);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 };
 
-module.exports = { getFlights, seeFlight, flight };
+module.exports = { getFlights, seeFlightPassangers, seeFlightTeam, flight };

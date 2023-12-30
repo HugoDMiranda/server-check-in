@@ -1,10 +1,16 @@
 const express = require("express");
-const { getFlights, seeFlight } = require("../controllers/flights.js");
+const {
+  getFlights,
+  seeFlightPassangers,
+  seeFlightTeam,
+  flight,
+} = require("../controllers/flights.js");
 
 const router = express.Router();
 
 router.get("/", getFlights);
-router.get("/seeFlight", seeFlight);
-router.get("/:number", seeFlight);
+router.get("/passengers", seeFlightPassangers);
+router.get("/team", seeFlightTeam);
+router.get("/:number", flight);
 
 module.exports = router;
