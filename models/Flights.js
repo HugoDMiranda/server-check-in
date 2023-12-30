@@ -10,7 +10,6 @@ const flightsSchema = new mongoose.Schema(
     class: { type: String },
     number: { type: String },
     team: { type: Array, default: [] },
-    passengers: { type: Array, default: [] },
   },
   {
     collection: "flights",
