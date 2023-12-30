@@ -19,37 +19,10 @@ const getFlights = async (req, res) => {
 // };
 //
 
-const seeFlightTeam = async (req, res) => {
-  try {
-    const team = await FlightsModel.aggregate([
-      {
-        $lookup: {
-          from: "team",
-          let: {
-            flightTeam: "$name",
-          },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $in: ["$$flightTeam", ["$name"]],
-                },
-              },
-            },
-          ],
-          as: "teamFound",
-        },
-      },
-    ]);
-    res.json(team);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-};
-
 const seeFlightPassangers = async (req, res) => {
+  const { number } = req.params;
   try {
-    const passengers = await FlightsModel.aggregate([
+    const results = await FlightsModel.aggregate([
       {
         $lookup: {
           from: "passengers",
@@ -69,41 +42,10 @@ const seeFlightPassangers = async (req, res) => {
         },
       },
     ]);
-    res.json(passengers);
+    res.json(results.filter((result) => result.number === number));
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 };
 
-const flight = async (req, res) => {
-  const { number } = req.params;
-  const flight = await FlightsModel.findOne({ number });
-  try {
-    const resultado = await flight.aggregate([
-      {
-        $lookup: {
-          from: "passengers",
-          let: {
-            flightName: "$number",
-          },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $in: ["$$flightName", ["$number"]],
-                },
-              },
-            },
-          ],
-          as: "passengersFind",
-        },
-      },
-    ]);
-    res.json(resultado);
-    res.json(flight);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-};
-
-module.exports = { getFlights, seeFlightPassangers, seeFlightTeam, flight };
+module.exports = { getFlights, seeFlightPassangers };
