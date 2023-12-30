@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.get("/", getFlights);
 router.get("/seeFlight", seeFlight);
+router.get("/:number", seeFlight);
 
 module.exports = router;
