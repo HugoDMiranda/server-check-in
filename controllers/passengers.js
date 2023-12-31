@@ -19,16 +19,7 @@ const addCheckin = async (req, res) => {
   res.json(passenger);
 };
 
-//
-const seePas = async (req, res) => {
-  const { name } = req.body;
-  const pas = await PassengersModel.findOne({ name });
-
-  res.json(pas);
-};
-
 module.exports = {
   getPassengers,
   addCheckin,
-  seePas,
 };
